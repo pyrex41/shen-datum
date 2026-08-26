@@ -47,8 +47,14 @@ export function normalizeLimits(overrides?: Limits): ResourceLimits {
 /** UTF-8 byte length without throwing on malformed text (TextEncoder replaces it). */
 export function utf8ByteLength(input: string): number {
   if (typeof TextEncoder !== 'undefined') return new TextEncoder().encode(input).byteLength;
-  // Node.js fallback; kept dynamic for browser builds.
-  return unescape(encodeURIComponent(input)).length;
+  // Small dependency-free fallback for runtimes without TextEncoder.
+  let bytes = 0;
+  for (let i = 0; i < input.length; i++) {
+    const cp = input.codePointAt(i)!;
+    if (cp > 0xffff) i++;
+    bytes += cp <= 0x7f ? 1 : cp <= 0x7ff ? 2 : cp <= 0xffff ? 3 : 4;
+  }
+  return bytes;
 }
 
 export function assertInputBytes(length: number, limits: ResourceLimits): void {
