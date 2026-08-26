@@ -31,19 +31,23 @@ export class SDNError extends Error {
   readonly line?: number;
   readonly column?: number;
   readonly context?: string;
+  /** Alias used by protocol layers that call the category a code. */
+  readonly code: ErrorCategory;
 
-  constructor(category: ErrorCategory, message: string, options: SDNErrorOptions = {}) {
+  constructor(category: ErrorCategory, message: string, options: SDNErrorOptions | number = {}) {
     super(message);
     this.name = 'SDNError';
     this.category = category;
-    this.byteOffset = options.byteOffset;
+    const details: SDNErrorOptions = typeof options === 'number' ? { byteOffset: options } : options;
+    this.code = category;
+    this.byteOffset = details.byteOffset;
     // `offset` is retained as a convenient alias for parser consumers.
     this.offset = options.byteOffset;
-    this.line = options.line;
-    this.column = options.column;
-    this.context = options.context;
-    if (options.cause !== undefined) {
-      (this as Error & { cause?: unknown }).cause = options.cause;
+    this.line = details.line;
+    this.column = details.column;
+    this.context = details.context;
+    if (details.cause !== undefined) {
+      (this as Error & { cause?: unknown }).cause = details.cause;
     }
     // Required when targeting ES5 and useful across transpilers.
     Object.setPrototypeOf(this, new.target.prototype);
@@ -63,11 +67,14 @@ export class SDNError extends Error {
   }
 }
 
+/** Backwards-compatible descriptive alias. */
+export const ParseError = SDNError;
+
 /** Convenience factory for parsers that prefer not to invoke the class directly. */
 export function sdnError(
   category: ErrorCategory,
   message: string,
-  options?: SDNErrorOptions,
+  options?: SDNErrorOptions | number,
 ): SDNError {
   return new SDNError(category, message, options);
 }

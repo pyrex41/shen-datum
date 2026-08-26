@@ -27,6 +27,9 @@ export const DEFAULT_LIMITS: Readonly<ResourceLimits> = Object.freeze({
   maxNumericMagnitude: 1_000_000,
 });
 
+/** Explicitly named alias for consumers that prefer the longer form. */
+export const DEFAULT_RESOURCE_LIMITS = DEFAULT_LIMITS;
+
 export type Limits = Partial<ResourceLimits>;
 
 /** Merge caller settings with defaults and reject unusable values early. */
