@@ -3,7 +3,8 @@
 Shen Datum Notation is a small, inert, UTF-8 serialization format for portable
 Shen data. The normative version 0.1 draft is in [spec.md](spec.md).
 
-This repository contains a portable Shen implementation tested with the
+This repository contains a portable Shen implementation tested with Shen 42
+and the adjacent
 adjacent `shen-cl`, `shen-lua`, `shen-erl`, `shen-go`, and `shen-rust`
 checkouts. Decoding constructs ordinary Shen values
 and never evaluates input, expands macros, invokes the Shen source reader on
@@ -70,8 +71,12 @@ pairs and `\u{...}` scalar escapes are supported.
 
 ## Port status
 
-The portable 54-assertion core suite passes on all five tested ports. The raw
-UTF-8 fixture also passes on `shen-cl`, `shen-lua`, `shen-erl`, and `shen-go`.
+The portable 54-assertion core suite passes on the explicitly verified Shen 42
+worktrees for `shen-lua` and `shen-erl`; the raw UTF-8 fixture also passes on
+each of those lanes. The root `shen-cl`, `shen-go`, and
+`shen-julia` checkouts currently report 41.2 and are excluded from Shen 42
+claims. `ShenScript-shen42` is a rejected community-kernel lineage and is also
+excluded until rebuilt from the canonical Tarver mirror.
 
 The original `shen-rust` `tlstr` defect discovered by this suite was fixed in
 [shen-rust PR #19](https://github.com/pyrex41/shen-rust/pull/19). Its corrected
@@ -82,8 +87,8 @@ are covered by the passing core suite.
 Run the suites with each port's standard launcher protocol, for example:
 
 ```sh
-../shen-go/shen eval -l sdn.shen -l tests/sdn-tests.shen
-../shen-go/shen eval -l sdn.shen -l tests/sdn-unicode-tests.shen
+../shen-lua-shen42/bin/shen --hush-load sdn.shen tests/sdn-tests.shen
+../shen-erl/bin/shen-erl eval -e '(load "sdn.shen")' -e '(load "tests/sdn-tests.shen")'
 ```
 
 ## Bifrost matrix
@@ -103,10 +108,11 @@ nix run ../bifrost#env -- all -- \
     --heavy
 ```
 
-The three cases pass across all ten locally available ports, including
-`shen-truffle` under GraalVM CE 25 supplied by Nix. Without Java on the normal
-path, wrap Bifrost in the `nix shell` command above; use `--impls` when a smaller
-matrix is wanted. The cases use pass markers because some launchers print
+The Bifrost matrix is not a Shen 42 gate until its adapters are pinned to the
+corresponding Shen 42 worktrees. The checked-in root matrix currently mixes
+41.2 and 42 runtimes (and its Truffle launcher emits no required pass markers),
+so use the explicit worktree commands above for Shen 42 verification. The
+cases use pass markers because some launchers print
 port-specific `load` diagnostics; the programs themselves assert the expected
 canonical values before emitting those markers.
 
