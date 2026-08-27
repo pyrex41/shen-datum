@@ -3,7 +3,8 @@
 Shen Datum Notation is a small, inert, UTF-8 serialization format for portable
 Shen data. The normative version 0.1 draft is in [spec.md](spec.md).
 
-This repository contains a portable Shen implementation tested with the
+This repository contains a portable Shen implementation tested with Shen 42
+and the adjacent
 adjacent `shen-cl`, `shen-lua`, `shen-erl`, `shen-go`, and `shen-rust`
 checkouts. Decoding constructs ordinary Shen values
 and never evaluates input, expands macros, invokes the Shen source reader on
@@ -103,10 +104,11 @@ nix run ../bifrost#env -- all -- \
     --heavy
 ```
 
-The three cases pass across all ten locally available ports, including
-`shen-truffle` under GraalVM CE 25 supplied by Nix. Without Java on the normal
-path, wrap Bifrost in the `nix shell` command above; use `--impls` when a smaller
-matrix is wanted. The cases use pass markers because some launchers print
+The three cases pass across nine locally available ports. The current
+`shen-truffle` launcher does not emit the required pass markers, so Bifrost
+reports that adapter as failed even though the other Shen 42 adapters pass.
+Without Java on the normal path, wrap Bifrost in the `nix shell` command above;
+use `--impls` when a smaller matrix is wanted. The cases use pass markers because some launchers print
 port-specific `load` diagnostics; the programs themselves assert the expected
 canonical values before emitting those markers.
 
