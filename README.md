@@ -72,10 +72,11 @@ pairs and `\u{...}` scalar escapes are supported.
 ## Port status
 
 The portable 54-assertion core suite passes on the explicitly verified Shen 42
-worktrees for `shen-lua`, `shen-erl`, and `ShenScript`; the raw UTF-8 fixture
-also passes on each of those lanes. The root `shen-cl`, `shen-go`, and
+worktrees for `shen-lua` and `shen-erl`; the raw UTF-8 fixture also passes on
+each of those lanes. The root `shen-cl`, `shen-go`, and
 `shen-julia` checkouts currently report 41.2 and are excluded from Shen 42
-claims.
+claims. `ShenScript-shen42` is a rejected community-kernel lineage and is also
+excluded until rebuilt from the canonical Tarver mirror.
 
 The original `shen-rust` `tlstr` defect discovered by this suite was fixed in
 [shen-rust PR #19](https://github.com/pyrex41/shen-rust/pull/19). Its corrected
@@ -86,8 +87,8 @@ are covered by the passing core suite.
 Run the suites with each port's standard launcher protocol, for example:
 
 ```sh
-../shen-go/shen eval -l sdn.shen -l tests/sdn-tests.shen
-../shen-go/shen eval -l sdn.shen -l tests/sdn-unicode-tests.shen
+../shen-lua-shen42/bin/shen --hush-load sdn.shen tests/sdn-tests.shen
+../shen-erl/bin/shen-erl eval -e '(load "sdn.shen")' -e '(load "tests/sdn-tests.shen")'
 ```
 
 ## Bifrost matrix
