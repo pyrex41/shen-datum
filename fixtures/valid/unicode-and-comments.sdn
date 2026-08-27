@@ -1,0 +1,3 @@
+\\ A comment may occur wherever spacing is allowed
+[greeting "héllo 😀" \\ inline comment
+  [escaped "\u0041\u{1F600}"]]

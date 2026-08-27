@@ -1,0 +1,34 @@
+{
+  "name": "shen-datum",
+  "_doc": "Cross-port SDN conformance. Run: python3 ../bifrost/bifrost.py --suite ./bifrost.suite.json --heavy",
+  "root": ".",
+  "programs_dir": "tests",
+  "default_cwd": ".",
+  "cases": [
+    {
+      "name": "sdn-core-conformance",
+      "mode": "script",
+      "program": "bifrost-core.shen",
+      "expect": "marker",
+      "marker": "SDN CORE PASS",
+      "heavy": true,
+      "doc": "all available ports run the SDN parser, encoder, rejection, limit, and fixture suite"
+    },
+    {
+      "name": "sdn-canonical-agreement",
+      "mode": "script",
+      "program": "bifrost-canonical.shen",
+      "expect": "marker",
+      "marker": "SDN CANONICAL PASS",
+      "doc": "canonical SDN output is byte-identical across all available ports"
+    },
+    {
+      "name": "sdn-escaped-unicode-agreement",
+      "mode": "script",
+      "program": "bifrost-escaped-unicode.shen",
+      "expect": "marker",
+      "marker": "SDN ESCAPED UNICODE PASS",
+      "doc": "Unicode scalar and surrogate-pair escapes decode and re-encode consistently"
+    }
+  ]
+}
